@@ -1,29 +1,37 @@
 # Fonts Directory
 
-This folder is for self-hosted font files.
+This folder is for self-hosted local fonts that are **automatically detected** at build time.
 
-## How to add fonts here
+## How to add fonts
 
-1. Place your `.ttf`, `.otf`, `.woff`, or `.woff2` font files in this directory
-2. Register them in `src/utils/fonts.js` by adding to the `BUILTIN_FONTS` array
-3. Add a `@font-face` declaration in `index.html` or `src/index.css`
+Just drop your font file here. No code changes needed.
 
-Example `@font-face`:
-```css
-@font-face {
-  font-family: 'MyHandwriting';
-  src: url('/fonts/my-handwriting.woff2') format('woff2');
-  font-display: swap;
-}
+```
+public/fonts/my-handwriting.ttf  →  appears as "My Handwriting" in the font picker
 ```
 
-## Currently loaded fonts
+Supported formats: `.ttf` `.otf` `.woff` `.woff2`
 
-All 15 built-in fonts are loaded from **Google Fonts CDN** via the `<link>` tag in `index.html`.
-If you want to self-host them for offline use, download the font files and place them here.
+The filename becomes the display name - `my-font.ttf` → `My Font`, `caveat_regular.ttf` → `Caveat Regular`.
+
+## How it works
+
+Vite scans this folder at build time via `import.meta.glob` in `src/utils/fonts.js`:
+
+```js
+import.meta.glob('/public/fonts/*.{ttf,otf,woff,woff2}', { eager: true, as: 'url' })
+```
+
+Each detected font is registered as a `@font-face` rule at runtime via `registerLocalFonts()`. Local fonts appear under the **Local** category in the Font Picker modal.
+
+## Built-in fonts (Google Fonts)
+
+15 handwriting fonts are loaded from Google Fonts CDN via `index.html`. These appear under the **Google Fonts** category in the picker and do not live in this folder.
 
 ## User-uploaded fonts
 
-When users upload custom fonts via the Font Picker, they are stored as base64 data URLs
-in the browser's IndexedDB , not in this folder. They persist across page refreshes
-but are specific to the user's browser.
+When users upload a font via the Font Picker, it is stored as a base64 data URL in the browser's **IndexedDB** - not in this folder. It persists across sessions and appears under the **Custom** category.
+
+## DO Not Sue me
+
+I just searched free .ttf files and surfed around few websites then downloaded the fonts which I liked. Do NOT SUE ME for this, I used what I saw and was provided.

@@ -68,7 +68,7 @@ export default function Navbar() {
           {/* hide subtitle on mobile to save space */}
           <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
             <span style={{ fontSize: isMobile ? '12px' : '13px', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.2, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
-              {isMobile ? 'HND' : 'Text to Handwriting'}
+              {isMobile ? 'TXT2HND' : 'Text to Handwriting'}
             </span>
             {!isMobile && (
               <span style={{ fontSize: '10px', color: 'var(--text-muted)', lineHeight: 1.2 }}>

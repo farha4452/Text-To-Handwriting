@@ -11,40 +11,55 @@ const INK_COLORS = [
   { name: 'Red',       value: 'crimson'   },
 ];
 
-const selStyle = {
-  width: '100%', padding: '6px 8px', fontSize: '12px',
-  background: 'var(--bg-raised)', color: 'var(--text-primary)',
-  border: '1px solid var(--border)', borderRadius: '6px',
-  outline: 'none', cursor: 'pointer', appearance: 'none',
-};
-
 export default function FontSection() {
   const settings          = useStore((s) => s.settings);
   const updateSetting     = useStore((s) => s.updateSetting);
   const fonts             = useStore((s) => s.fonts);
   const setFontPickerOpen = useStore((s) => s.setFontPickerOpen);
 
-  const isPreset = INK_COLORS.some((c) => c.value === settings.fontColor);
+  const isPreset    = INK_COLORS.some((c) => c.value === settings.fontColor);
+  const activeFont  = fonts.find((f) => f.family === settings.fontFamily);
+  const displayName = activeFont?.name ?? settings.fontFamily;
 
   return (
-    <Section title="Font" /* emoji="✍️" */>
+    <Section title="Font" /* emoji="✍️" bolo ai ne banaya */>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
         <label style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Font Family</label>
-        <div style={{ display: 'flex', gap: '6px' }}>
-          <select value={settings.fontFamily} onChange={(e) => updateSetting('fontFamily', e.target.value)}
-            style={{ ...selStyle, fontFamily: settings.fontFamily, flex: 1 }}>
-            {fonts.map((f) => (
-              <option key={f.name} value={f.family} style={{ fontFamily: f.family }}>
-                {f.name}{f.category === 'custom' ? ' ★' : ''}
-              </option>
-            ))}
-          </select>
-          <button onClick={() => setFontPickerOpen(true)} style={{
-            padding: '6px 10px', fontSize: '11px', fontWeight: 600,
-            background: 'var(--accent-subtle)', color: 'var(--accent-light)',
-            border: '1px solid var(--accent-glow)', borderRadius: '6px', cursor: 'pointer',
-          }}>+</button>
-        </div>
+
+        {/* clicking anywhere on this row opens the grid picker */}
+        <button
+          onClick={() => setFontPickerOpen(true)}
+          title="Open font picker"
+          style={{
+            width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '6px 10px', borderRadius: '6px', cursor: 'pointer',
+            background: 'var(--bg-raised)', border: '1px solid var(--border)',
+            transition: 'border-color 0.15s, background 0.15s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.background = 'var(--accent-subtle)'; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)';  e.currentTarget.style.background = 'var(--bg-raised)'; }}
+        >
+          {/* font name rendered in the active font */}
+          <span style={{
+            fontFamily: `'${settings.fontFamily}', cursive`,
+            fontSize: '15px',
+            color: 'var(--text-primary)',
+            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+            flex: 1, textAlign: 'left',
+          }}>
+            {displayName}
+          </span>
+
+          {/* chevron + plus icon */}
+          <span style={{
+            display: 'flex', alignItems: 'center', gap: '4px',
+            color: 'var(--accent-light)', fontSize: '11px', fontWeight: 600, flexShrink: 0, marginLeft: '8px',
+          }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </span>
+        </button>
       </div>
 
       <SliderControl label="Font Size" value={settings.fontSize}

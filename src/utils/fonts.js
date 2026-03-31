@@ -1,21 +1,65 @@
 // Font management: builtin list, auto-detected local fonts, custom upload/unload
 
 export const BUILTIN_FONTS = [
-  { name: 'Caveat',              family: 'Caveat',              category: 'builtin' },
-  { name: 'Indie Flower',        family: 'Indie Flower',        category: 'builtin' },
-  { name: 'Kalam',               family: 'Kalam',               category: 'builtin' },
-  { name: 'Patrick Hand',        family: 'Patrick Hand',        category: 'builtin' },
-  { name: 'Shadows Into Light',  family: 'Shadows Into Light',  category: 'builtin' },
-  { name: 'Homemade Apple',      family: 'Homemade Apple',      category: 'builtin' },
-  { name: 'Dancing Script',      family: 'Dancing Script',      category: 'builtin' },
-  { name: 'Architects Daughter', family: 'Architects Daughter', category: 'builtin' },
-  { name: 'Coming Soon',         family: 'Coming Soon',         category: 'builtin' },
-  { name: 'Just Another Hand',   family: 'Just Another Hand',   category: 'builtin' },
-  { name: 'Reenie Beanie',       family: 'Reenie Beanie',       category: 'builtin' },
-  { name: 'Sacramento',          family: 'Sacramento',          category: 'builtin' },
-  { name: 'Gloria Hallelujah',   family: 'Gloria Hallelujah',   category: 'builtin' },
-  { name: 'Rock Salt',           family: 'Rock Salt',           category: 'builtin' },
-  { name: 'Permanent Marker',    family: 'Permanent Marker',    category: 'builtin' },
+  // Casual / Everyday handwriting
+  { name: 'Caveat',               family: 'Caveat',               category: 'builtin' },
+  { name: 'Indie Flower',         family: 'Indie Flower',         category: 'builtin' },
+  { name: 'Kalam',                family: 'Kalam',                category: 'builtin' },
+  { name: 'Patrick Hand',         family: 'Patrick Hand',         category: 'builtin' },
+  { name: 'Architects Daughter',  family: 'Architects Daughter',  category: 'builtin' },
+  { name: 'Coming Soon',          family: 'Coming Soon',          category: 'builtin' },
+  { name: 'Just Another Hand',    family: 'Just Another Hand',    category: 'builtin' },
+  { name: 'Reenie Beanie',        family: 'Reenie Beanie',        category: 'builtin' },
+  { name: 'Bad Script',           family: 'Bad Script',           category: 'builtin' },
+  { name: 'Nanum Pen Script',     family: 'Nanum Pen Script',     category: 'builtin' },
+  { name: 'Loved by the King',    family: 'Loved by the King',    category: 'builtin' },
+  { name: 'Gochi Hand',           family: 'Gochi Hand',           category: 'builtin' },
+  { name: 'Sriracha',             family: 'Sriracha',             category: 'builtin' },
+  { name: 'Handlee',              family: 'Handlee',              category: 'builtin' },
+  { name: 'Schoolbell',           family: 'Schoolbell',           category: 'builtin' },
+  { name: 'Dawning of a New Day', family: 'Dawning of a New Day', category: 'builtin' },
+  { name: 'Sue Ellen Francisco',  family: 'Sue Ellen Francisco',  category: 'builtin' },
+  { name: 'Zeyada',               family: 'Zeyada',               category: 'builtin' },
+  { name: 'Cedarville Cursive',   family: 'Cedarville Cursive',   category: 'builtin' },
+  { name: 'Kristi',               family: 'Kristi',               category: 'builtin' },
+
+  // Cursive / Script 
+  { name: 'Dancing Script',       family: 'Dancing Script',       category: 'builtin' },
+  { name: 'Sacramento',           family: 'Sacramento',           category: 'builtin' },
+  { name: 'Shadows Into Light',   family: 'Shadows Into Light',   category: 'builtin' },
+  { name: 'Homemade Apple',       family: 'Homemade Apple',       category: 'builtin' },
+  { name: 'Great Vibes',          family: 'Great Vibes',          category: 'builtin' },
+  { name: 'Pacifico',             family: 'Pacifico',             category: 'builtin' },
+  { name: 'Satisfy',              family: 'Satisfy',              category: 'builtin' },
+  { name: 'Cookie',               family: 'Cookie',               category: 'builtin' },
+  { name: 'Allura',               family: 'Allura',               category: 'builtin' },
+  { name: 'Alex Brush',           family: 'Alex Brush',           category: 'builtin' },
+  { name: 'Parisienne',           family: 'Parisienne',           category: 'builtin' },
+  { name: 'Marck Script',         family: 'Marck Script',         category: 'builtin' },
+  { name: 'Meddon',               family: 'Meddon',               category: 'builtin' },
+  { name: 'Qwigley',              family: 'Qwigley',              category: 'builtin' },
+  { name: 'Rouge Script',         family: 'Rouge Script',         category: 'builtin' },
+
+  // Bold / Marker / Ink
+  { name: 'Permanent Marker',     family: 'Permanent Marker',     category: 'builtin' },
+  { name: 'Rock Salt',            family: 'Rock Salt',            category: 'builtin' },
+  { name: 'Gloria Hallelujah',    family: 'Gloria Hallelujah',    category: 'builtin' },
+  { name: 'Covered By Your Grace',family: 'Covered By Your Grace',category: 'builtin' },
+  { name: 'Amatic SC',            family: 'Amatic SC',            category: 'builtin' },
+  { name: 'Patrick Hand SC',      family: 'Patrick Hand SC',      category: 'builtin' },
+
+  // Elegant / Formal
+  { name: 'Mrs Saint Delafield',  family: 'Mrs Saint Delafield',  category: 'builtin' },
+  { name: 'Pinyon Script',        family: 'Pinyon Script',        category: 'builtin' },
+  { name: 'Tangerine',            family: 'Tangerine',            category: 'builtin' },
+  { name: 'Euphoria Script',      family: 'Euphoria Script',      category: 'builtin' },
+  { name: 'Licorice',             family: 'Licorice',             category: 'builtin' },
+  { name: 'Petit Formal Script',  family: 'Petit Formal Script',  category: 'builtin' },
+
+  // Quirky / Unique
+  { name: 'Shadows Into Light Two', family: 'Shadows Into Light Two', category: 'builtin' },
+  { name: 'Give You Glory',       family: 'Give You Glory',       category: 'builtin' },
+  { name: 'Waiting for the Sunrise', family: 'Waiting for the Sunrise', category: 'builtin' },
 ];
 
 const fontFiles = import.meta.glob('/public/fonts/*.{ttf,otf,woff,woff2}', { eager: true, as: 'url' });
@@ -44,7 +88,6 @@ export function registerLocalFonts() {
   });
 }
 
-// Injects a @font-face rule from a base64 dataUrl for a user-uploaded font.
 export function loadCustomFont(displayName, dataUrl) {
   const family = `HND_${displayName.replace(/[^a-zA-Z0-9]/g, '_')}`;
   if (document.getElementById(`font-${family}`)) return family;
@@ -60,7 +103,6 @@ export function unloadCustomFont(displayName) {
   document.getElementById(`font-${family}`)?.remove();
 }
 
-// Reads a font file and returns it as a base64 data URL.
 export function readFontFile(file) {
   return new Promise((resolve, reject) => {
     const reader   = new FileReader();
@@ -70,7 +112,6 @@ export function readFontFile(file) {
   });
 }
 
-// Derives a clean display name from a font filename: "my-font.ttf" -> "My Font"
 export function fontNameFromFile(file) {
   return file.name
     .replace(/\.[^.]+$/, '')

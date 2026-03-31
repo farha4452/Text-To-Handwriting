@@ -2,7 +2,7 @@
 
 A client-side tool that converts typed text into handwriting-style rendered A4 pages with PNG/PDF export. No server, no signup, no data leaves the browser.
 
-**Live:** [your-url-here]
+**Live:** [https://text-to-handwriting-jet.vercel.app/]
 
 ---
 
@@ -39,7 +39,7 @@ npm run preview  # preview the production build locally
 
 ```
 src/
-├── store.js                  # Zustand root — merges all slices
+├── store.js                  # Zustand root - merges all slices
 ├── store/
 │   ├── defaults.js           # A4 dims + all default setting values
 │   ├── settingsSlice.js      # Visual settings + noise seed
@@ -48,7 +48,7 @@ src/
 │   ├── drawingSlice.js       # Active drawing tool state
 │   └── uiSlice.js            # Dark mode, zoom, modals, mobile tab
 ├── utils/
-│   ├── noise.js              # Murmur3 PRNG — seeded per-line/word noise
+│   ├── noise.js              # Murmur3 PRNG - seeded per-line/word noise
 │   ├── paper.js              # Tag parser, paper background CSS, content padding
 │   ├── fonts.js              # Font registration + @font-face injection
 │   ├── idb.js                # IndexedDB wrapper (pages / meta / fonts stores)
@@ -83,7 +83,7 @@ raw text
   → CSS inline styles    final handwriting render
 ```
 
-Noise is deterministic — same seed always produces the same visual output, so the page doesn't jitter on re-render. Uses a Murmur3 finalizer hash (replaced `Math.sin()` which caused visible periodic patterns).
+Noise is deterministic - same seed always produces the same visual output, so the page doesn't jitter on re-render. Uses a Murmur3 finalizer hash (replaced `Math.sin()` which caused visible periodic patterns).
 
 The page has explicit z-index layers:
 
@@ -156,7 +156,7 @@ useStore = create(persist(
 
 - `persist()` selectively saves to localStorage via `partialize` (settings + UI prefs only)
 - Pages and fonts go to IndexedDB manually (too large / binary for localStorage)
-- All slices are flat — no nested state
+- All slices are flat - no nested state
 
 ---
 
@@ -177,11 +177,16 @@ Zoom auto-fits the page to screen width on mobile/tablet on mount.
 - Max 30 pages (`MAX_PAGES` in `pagesSlice.js`)
 - Max undo history: 30 snapshots per session (`MAX_UNDO` in `useDrawingCanvas.js`)
 - Supported font upload formats: `.ttf .otf .woff .woff2`
-- Export scale: 3× (2382×3369px for A4) — hardcoded in `capture.js`
-- Grid cell size: 102.5px — hardcoded in `paper.js`
+- Export scale: 3× (2382×3369px for A4) - hardcoded in `capture.js`
+- Grid cell size: 102.5px - hardcoded in `paper.js`
 
 ---
 
 ## Author
 
-**Satvik Hemant Gupta** — [github.com/SatvikHGupta](https://github.com/SatvikHGupta)
+**Satvik Hemant Gupta** - [github.com/SatvikHGupta](https://github.com/SatvikHGupta)
+
+
+## DO Not Sue me
+
+I just searched free .ttf files and surfed around few websites then downloaded the fonts which I liked. Do NOT SUE ME for this, I used what I saw and was provided.

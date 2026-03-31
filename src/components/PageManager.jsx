@@ -1,9 +1,10 @@
-// Page manager bar: tabs, add and delete , mobile gets horizontal scroll
+// Page manager: desktop = horizontal bar, mobile = 30-slot grid below the page
 
 import { useState }            from 'react';
 import { useStore, MAX_PAGES } from '../store.js';
 import { useBreakpoint }       from '../hooks/useBreakpoint.js';
 
+//Delete confirmation modal
 function DeleteConfirmModal({ pageNumber, onConfirm, onCancel }) {
   return (
     <div style={{
@@ -36,6 +37,7 @@ function DeleteConfirmModal({ pageNumber, onConfirm, onCancel }) {
   );
 }
 
+//Delete dot button on each cell 
 function PageDeleteBtn({ pageIndex, pageNumber, onDelete }) {
   const [hovered, setHovered] = useState(false);
   return (
@@ -60,6 +62,7 @@ function PageDeleteBtn({ pageIndex, pageNumber, onDelete }) {
   );
 }
 
+//Main
 export default function PageManager() {
   const pages            = useStore((s) => s.pages);
   const currentPageIndex = useStore((s) => s.currentPageIndex);
@@ -70,30 +73,91 @@ export default function PageManager() {
   const { isMobile }     = useBreakpoint();
 
   const [confirmTarget, setConfirmTarget] = useState(null);
-
   const handleDelete  = (index, pageNumber) => setConfirmTarget({ index, pageNumber });
   const handleConfirm = () => { deletePage(confirmTarget.index); setConfirmTarget(null); };
   const handleCancel  = () => setConfirmTarget(null);
 
-  // mobile: horizontal scrolling row of actual pages only (not 30 placeholders)
+  //mobile = 30 grid
   if (isMobile) {
     return (
       <>
-        {confirmTarget && <DeleteConfirmModal pageNumber={confirmTarget.pageNumber} onConfirm={handleConfirm} onCancel={handleCancel} />}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', overflowX: 'auto', paddingBottom: '2px' }} className="custom-scrollbar">
-          {pages.map((_, i) => {
-            const active = i === currentPageIndex;
+        {confirmTarget && (
+          <DeleteConfirmModal
+            pageNumber={confirmTarget.pageNumber}
+            onConfirm={handleConfirm}
+            onCancel={handleCancel}
+          />
+        )}
+        
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(6, 1fr)',
+          gap: '4px',
+          padding: '8px',
+          width: '100%',
+          boxSizing: 'border-box',
+        }}>
+          {Array.from({ length: MAX_PAGES }, (_, i) => {
+            const exists = i < pages.length;
+            const active = exists && i === currentPageIndex;
+            const isNext = i === pages.length; 
+
+            // add page button
+            if (isNext) {
+              return (
+                <button
+                  key={i}
+                  onClick={() => !atCapacity && addPage()}
+                  disabled={atCapacity}
+                  title={atCapacity ? `Max ${MAX_PAGES}` : 'Add page'}
+                  style={{
+                    height: '32px', borderRadius: '6px',
+                    cursor: atCapacity ? 'not-allowed' : 'pointer',
+                    background: 'transparent',
+                    border: '1px dashed var(--border-strong)',
+                    color: 'var(--text-muted)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    opacity: atCapacity ? 0.3 : 0.8,
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                </button>
+              );
+            }
+
+            // empty placeholder slot
+            if (!exists) {
+              return (
+                <div
+                  key={i}
+                  style={{
+                    height: '32px', borderRadius: '6px',
+                    background: 'var(--bg-raised)',
+                    border: '1px solid var(--border)',
+                    opacity: 0.2,
+                  }}
+                />
+              );
+            }
+
+            // existing page
             return (
-              <div key={i} style={{ position: 'relative', flexShrink: 0 }}>
-                <button onClick={() => setCurrentPage(i)} style={{
-                  minWidth: '36px', height: '32px', borderRadius: '6px', padding: '0 8px',
-                  fontSize: '12px', fontWeight: 500, cursor: 'pointer',
-                  background: active ? 'var(--accent)' : 'var(--bg-raised)',
-                  color: active ? 'white' : 'var(--text-secondary)',
-                  border: `1px solid ${active ? 'var(--accent)' : 'var(--border)'}`,
-                  boxShadow: active ? '0 0 8px var(--accent-glow)' : 'none',
-                  transition: 'all 0.15s',
-                }}>
+              <div key={i} style={{ position: 'relative' }}>
+                <button
+                  onClick={() => setCurrentPage(i)}
+                  style={{
+                    width: '100%', height: '32px', borderRadius: '6px',
+                    fontSize: '12px', fontWeight: 500, cursor: 'pointer',
+                    background: active ? 'var(--accent)' : 'var(--bg-raised)',
+                    color: active ? 'white' : 'var(--text-secondary)',
+                    border: `1px solid ${active ? 'var(--accent)' : 'var(--border)'}`,
+                    boxShadow: active ? '0 0 8px var(--accent-glow)' : 'none',
+                    transition: 'all 0.15s',
+                  }}
+                >
                   {i + 1}
                 </button>
                 {pages.length > 1 && (
@@ -102,29 +166,21 @@ export default function PageManager() {
               </div>
             );
           })}
-          {/* add page button */}
-          <button onClick={() => !atCapacity && addPage()} disabled={atCapacity}
-            title={atCapacity ? `Max ${MAX_PAGES}` : 'Add page'}
-            style={{
-              flexShrink: 0, minWidth: '36px', height: '32px', borderRadius: '6px',
-              cursor: atCapacity ? 'not-allowed' : 'pointer',
-              background: 'transparent', border: '1px dashed var(--border-strong)',
-              color: 'var(--text-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              opacity: atCapacity ? 0.3 : 1, transition: 'all 0.15s', padding: '0 8px',
-            }}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
-          </button>
         </div>
       </>
     );
   }
 
-  // desktop/tablet: original fixed-slot layout
+//original tab bar
   return (
     <>
-      {confirmTarget && <DeleteConfirmModal pageNumber={confirmTarget.pageNumber} onConfirm={handleConfirm} onCancel={handleCancel} />}
+      {confirmTarget && (
+        <DeleteConfirmModal
+          pageNumber={confirmTarget.pageNumber}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
+      )}
       <div style={{ display: 'flex', alignItems: 'center', width: '100%', gap: '2px' }}>
         {Array.from({ length: MAX_PAGES }, (_, i) => {
           const exists = i < pages.length;
@@ -140,7 +196,7 @@ export default function PageManager() {
                 title={atCapacity ? `Max ${MAX_PAGES}` : 'Add page'}
                 style={{ flex: 1, height: '28px', borderRadius: '4px', cursor: atCapacity ? 'not-allowed' : 'pointer', background: 'transparent', border: '1px dashed var(--border-strong)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: atCapacity ? 0.3 : 1, transition: 'all 0.15s' }}>
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+                  <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
                 </svg>
               </button>
             );
